@@ -27,7 +27,8 @@ void Carta::show()
 bool Carta::isClick(sf::Vector2i vec)
 {
     sf::FloatRect card = this->getLocalBounds();
-    if(card.intersects(sf::FloatRect(vec.x,vec.y,1,1)))
+    sf::FloatRect mouse = sf::FloatRect(vec.x,vec.y,1,1);
+    if(mouse.intersects(card))
         return true;
     return false;
 }

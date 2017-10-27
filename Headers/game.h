@@ -21,7 +21,7 @@ public:
     void colocarCarta(TablaNormal *tb);//este metodo toma del mazo para colocar en la tabla que le dicen, solo se ejecutara al inicio
     bool isTablaLlena(TablaNormal *tb);
     void addCarta(Tabla *tbAdd,Carta *cr);
-    void moverCarta(Tabla *tbFrom,Tabla *tbTo);
+    void moverCarta(Tabla *tbFrom,Tabla *tbTo,Carta* carta);
     void sacarCarta(Tabla *tb,Carta *cr);
     sf::RectangleShape* crearLabel(int width, int height,int posX, int posY);
     void createAllLabels(list<TablaNormal*> tablas);
@@ -31,6 +31,8 @@ public:
     void sortCards(list<Carta*> *cards);
     void drawAllCards();
     void orderCards();
+    Carta* getCardClicked(sf::Vector2i vec);
+    Tabla* getTableClicked(sf::Vector2i vec);
     void gameLoop();
     
     

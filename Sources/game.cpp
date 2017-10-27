@@ -109,20 +109,56 @@ bool Game::isTablaLlena(TablaNormal *tb)
 }
 void Game::addCarta(Tabla *tbAdd,Carta *cr)
 {
-
+    tbAdd->cartas->push_back(cr);
 }
-void Game::moverCarta(Tabla *tbFrom,Tabla *tbTo)
+void Game::moverCarta(Tabla *tbFrom,Tabla *tbTo,Carta* carta)
 {
-
+    addCarta(tbTo,carta);
+    sacarCarta(tbFrom,carta);
 }
 void Game::sacarCarta(Tabla *tb,Carta *cr)
 {
-
+    tb->cartas->remove(cr);
+}
+Carta* Game::getCardClicked(sf::Vector2i vec)
+{
+    list<TablaNormal*>::iterator tbs = this->tablas.begin();
+    while(tbs!=this->tablas.end())
+    {
+        list<Carta*>::iterator cts = (*tbs)->cartas->begin();
+        while(cts!= (*tbs)->cartas->end())
+        {
+            if((*cts)->isClick(vec))
+                return *cts;
+            cts++;
+        }
+        
+        tbs++;
+    }
+    return NULL;
+}
+Tabla* Game::getTableClicked(sf::Vector2i vec)
+{
+    list<TablaNormal*>::iterator tbs = this->tablas.begin();
+    while(tbs!=this->tablas.end())
+    {
+        list<Carta*>::iterator cts = (*tbs)->cartas->begin();
+        while(cts!= (*tbs)->cartas->end())
+        {
+            if((*cts)->isClick(vec))
+                return *tbs;
+            cts++;
+        }
+        
+        tbs++;
+    }
+    return NULL;
 }
 void Game::gameLoop()
 {
     while (window.isOpen()) {
-        
+        Carta* clicked = NULL;
+        Tabla* tbClicked = NULL;
         sf::Event event;
         while (window.pollEvent(event)) {
             sf::Vector2i mouseBounds;
@@ -132,9 +168,14 @@ void Game::gameLoop()
                     break;
                 case sf::Event::MouseButtonPressed:
                     mouseBounds = sf::Mouse::getPosition(window);
-
                     if (event.mouseButton.button == 0) {
                         moving = true;
+                        clicked = getCardClicked(mouseBounds);
+                        tbClicked = getTableClicked(mouseBounds);
+                        //prueba
+                        if(clicked!= NULL && tbClicked!= NULL)
+                            moverCarta((TablaNormal*)tbClicked,this->tablas.back(),clicked);
+                        //fin prueba
                     }
                     break;
                 case  sf::Event::MouseButtonReleased:
@@ -143,7 +184,7 @@ void Game::gameLoop()
                     }
                     break;
                 case sf::Event::MouseMoved:
-                
+                    
                     break;
             }
         
