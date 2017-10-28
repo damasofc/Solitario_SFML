@@ -14,6 +14,7 @@ public:
     int cantCartasVisibles;
 
     void ordenarCartasLabel();
+    bool isTablaLlena();
 };
 
 #endif // TABLANORMAL_H

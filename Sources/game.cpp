@@ -84,7 +84,7 @@ void Game::drawAllCards()
 }
 void Game::colocarCarta(TablaNormal *tab)
 {
-    if(!isTablaLlena(tab))
+    if(!tab->isTablaLlena())
     {
         Carta *it = this->mazo->cartas->front();
         if(tab->cartas->size() == (tab->cantMaxCartas-1))
@@ -103,10 +103,6 @@ void Game::colocarCarta(TablaNormal *tab)
 
     }
 }
-bool Game::isTablaLlena(TablaNormal *tb)
-{
-    return (tb->cantCartas >= tb->cantMaxCartas)?true:false;
-}
 void Game::addCarta(Tabla *tbAdd,Carta *cr)
 {
     tbAdd->cartas->push_back(cr);
@@ -120,7 +116,7 @@ void Game::sacarCarta(Tabla *tb,Carta *cr)
 {
     tb->cartas->remove(cr);
 }
-Carta* Game::getCardClicked(sf::Vector2i vec)
+Carta* Game::getCardClicked(sf::Vector2f vec)
 {
     list<TablaNormal*>::iterator tbs = this->tablas.begin();
     while(tbs!=this->tablas.end())
@@ -128,7 +124,7 @@ Carta* Game::getCardClicked(sf::Vector2i vec)
         list<Carta*>::iterator cts = (*tbs)->cartas->begin();
         while(cts!= (*tbs)->cartas->end())
         {
-            if((*cts)->isClick(vec))
+            if((*cts)->isClick(vec) && (*cts)->isVisible)
                 return *cts;
             cts++;
         }
@@ -137,7 +133,7 @@ Carta* Game::getCardClicked(sf::Vector2i vec)
     }
     return NULL;
 }
-Tabla* Game::getTableClicked(sf::Vector2i vec)
+Tabla* Game::getTableClicked(sf::Vector2f vec)
 {
     list<TablaNormal*>::iterator tbs = this->tablas.begin();
     while(tbs!=this->tablas.end())
@@ -156,25 +152,32 @@ Tabla* Game::getTableClicked(sf::Vector2i vec)
 }
 void Game::gameLoop()
 {
+    orderCards();
     while (window.isOpen()) {
         Carta* clicked = NULL;
         Tabla* tbClicked = NULL;
         sf::Event event;
         while (window.pollEvent(event)) {
-            sf::Vector2i mouseBounds;
+            sf::Vector2f mouseBounds;
             switch (event.type) {
                 case sf::Event::Closed:
                     window.close();
                     break;
                 case sf::Event::MouseButtonPressed:
-                    mouseBounds = sf::Mouse::getPosition(window);
+                    mouseBounds = window.mapPixelToCoords(sf::Mouse::getPosition(window));
                     if (event.mouseButton.button == 0) {
-                        moving = true;
+
                         clicked = getCardClicked(mouseBounds);
                         tbClicked = getTableClicked(mouseBounds);
                         //prueba
                         if(clicked!= NULL && tbClicked!= NULL)
+                        {
+                            moving = true;
+                            oldPos = sf::Vector2f(event.mouseButton.x, event.mouseButton.y);
                             moverCarta((TablaNormal*)tbClicked,this->tablas.back(),clicked);
+                            orderCards();
+                        }
+                        
                         //fin prueba
                     }
                     break;
@@ -184,7 +187,11 @@ void Game::gameLoop()
                     }
                     break;
                 case sf::Event::MouseMoved:
-                    
+                    if(!moving)
+                        break;
+                    const sf::Vector2f newPos = sf::Vector2f(event.mouseMove.x, event.mouseMove.y);
+                    //TODO: ACA es donde me lanza un error
+                    //clicked->setPosition(newPos);
                     break;
             }
         
@@ -192,7 +199,6 @@ void Game::gameLoop()
         
         window.clear(sf::Color::Green);
         drawAllLabels();
-        orderCards();
         drawAllCards();
         window.display();
     }

@@ -20,15 +20,15 @@ void Carta::setPos(int x, int y)
 
 void Carta::show()
 {
+    isVisible = true;
     this->texture.loadFromFile(srcImg.c_str());
     this->setTexture(this->texture);
 }
 
-bool Carta::isClick(sf::Vector2i vec)
+bool Carta::isClick(sf::Vector2f vec)
 {
-    sf::FloatRect card = this->getLocalBounds();
-    sf::FloatRect mouse = sf::FloatRect(vec.x,vec.y,1,1);
-    if(mouse.intersects(card))
+    sf::FloatRect card = this->getGlobalBounds();
+    if(card.contains(vec))
         return true;
     return false;
 }

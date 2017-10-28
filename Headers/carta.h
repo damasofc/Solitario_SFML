@@ -21,7 +21,7 @@ public:
     string srcImg;
     string imgDefault;
     bool isVisible;
-    bool isClick(sf::Vector2i vec);
+    bool isClick(sf::Vector2f vec);
     sf::Texture texture;
     void setPos(int x, int y);
     void show();

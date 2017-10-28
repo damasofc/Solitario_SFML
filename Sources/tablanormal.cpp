@@ -15,7 +15,17 @@ void TablaNormal::ordenarCartasLabel()
     int cont = 0;
     for(list<Carta*>::iterator i = this->cartas->begin();i!=this->cartas->end();i++)
     {
+        //este if comprueba si la ultima carta, entonces se le
+        //aplica el metodo show para que la muestre
+        if((*i) == this->cartas->back())
+        {
+            (*i)->show();
+        }
         (*i)->setPos(posX,posY+cont);
         cont+=23;
     }
+}
+bool TablaNormal::isTablaLlena()
+{
+    return (this->cantCartas >= this->cantMaxCartas)?true:false;
 }

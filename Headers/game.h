@@ -19,7 +19,6 @@ public:
     Game();
     void repartirCartas();//este metodo es el que se ejecuta solo al incio
     void colocarCarta(TablaNormal *tb);//este metodo toma del mazo para colocar en la tabla que le dicen, solo se ejecutara al inicio
-    bool isTablaLlena(TablaNormal *tb);
     void addCarta(Tabla *tbAdd,Carta *cr);
     void moverCarta(Tabla *tbFrom,Tabla *tbTo,Carta* carta);
     void sacarCarta(Tabla *tb,Carta *cr);
@@ -31,8 +30,8 @@ public:
     void sortCards(list<Carta*> *cards);
     void drawAllCards();
     void orderCards();
-    Carta* getCardClicked(sf::Vector2i vec);
-    Tabla* getTableClicked(sf::Vector2i vec);
+    Carta* getCardClicked(sf::Vector2f vec);
+    Tabla* getTableClicked(sf::Vector2f vec);
     void gameLoop();
     
     
@@ -40,6 +39,7 @@ public:
     
     //VARIABLES
     bool moving;
+    sf::Vector2f oldPos;
     
     list<Carta*>* cartas;
     list <TablaNormal*> tablas;
