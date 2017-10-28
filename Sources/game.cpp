@@ -6,8 +6,8 @@ Game::Game()
     window.setFramerateLimit(60);
     cartas = new list<Carta*>();
     loadAllCards();
-    //este metodo de sort debo implementarlo
-    sortCards(cartas);
+    cartas->sort();
+    cartas->reverse();
     this->mazo = new Mazo();
     mazo->cartas = cartas;
     for (int i = 0; i < 7; i++) {
@@ -18,11 +18,15 @@ Game::Game()
     mazo->setPositionMazo(950,30);
     
 }
-void Game::sortCards(list<Carta*> *cards)
+bool Game::evaluarMovimiento(Tabla *tbTo,Carta* carta)
 {
-    srand(time(NULL));
-    int num = rand();
-    num=rand()%52;
+    Carta* last = tbTo->cartas->back();
+    int tipLast = last->tip;
+    if(last->col == carta->col)
+        return false;
+    if(!(carta->tip == tipLast+1))
+        return false;
+    return true;
 }
 sf::RectangleShape* Game::crearLabel(int width,int height,int posX,int posY)
 {
@@ -109,8 +113,12 @@ void Game::addCarta(Tabla *tbAdd,Carta *cr)
 }
 void Game::moverCarta(Tabla *tbFrom,Tabla *tbTo,Carta* carta)
 {
-    addCarta(tbTo,carta);
-    sacarCarta(tbFrom,carta);
+    if(carta->isVisible)
+    {
+
+        addCarta(tbTo,carta);
+        sacarCarta(tbFrom,carta);
+    }
 }
 void Game::sacarCarta(Tabla *tb,Carta *cr)
 {
@@ -125,7 +133,9 @@ Carta* Game::getCardClicked(sf::Vector2f vec)
         while(cts!= (*tbs)->cartas->end())
         {
             if((*cts)->isClick(vec) && (*cts)->isVisible)
+            {
                 return *cts;
+            }    
             cts++;
         }
         
@@ -138,13 +148,9 @@ Tabla* Game::getTableClicked(sf::Vector2f vec)
     list<TablaNormal*>::iterator tbs = this->tablas.begin();
     while(tbs!=this->tablas.end())
     {
-        list<Carta*>::iterator cts = (*tbs)->cartas->begin();
-        while(cts!= (*tbs)->cartas->end())
-        {
-            if((*cts)->isClick(vec))
-                return *tbs;
-            cts++;
-        }
+        sf::FloatRect table = (*tbs)->label->getGlobalBounds();
+        if(table.contains(vec))
+            return (*tbs);
         
         tbs++;
     }
@@ -152,10 +158,11 @@ Tabla* Game::getTableClicked(sf::Vector2f vec)
 }
 void Game::gameLoop()
 {
+    
+    Carta* clicked = NULL;
+    Tabla* tbClicked = NULL;
     orderCards();
     while (window.isOpen()) {
-        Carta* clicked = NULL;
-        Tabla* tbClicked = NULL;
         sf::Event event;
         while (window.pollEvent(event)) {
             sf::Vector2f mouseBounds;
@@ -174,16 +181,23 @@ void Game::gameLoop()
                         {
                             moving = true;
                             oldPos = sf::Vector2f(event.mouseButton.x, event.mouseButton.y);
-                            moverCarta((TablaNormal*)tbClicked,this->tablas.back(),clicked);
-                            orderCards();
                         }
-                        
                         //fin prueba
                     }
                     break;
                 case  sf::Event::MouseButtonReleased:
                     if (event.mouseButton.button == 0) {
+                        Tabla* tb = getTableClicked(window.mapPixelToCoords(sf::Mouse::getPosition(window)));
                         moving = false;
+                        if(tb != NULL)
+                        {
+                            if(tb != tbClicked && evaluarMovimiento(tb,clicked))
+                            {
+
+                                moverCarta((TablaNormal*)tbClicked,(TablaNormal*)tb,clicked);
+                            }
+                        }
+                        orderCards();
                     }
                     break;
                 case sf::Event::MouseMoved:
@@ -191,7 +205,8 @@ void Game::gameLoop()
                         break;
                     const sf::Vector2f newPos = sf::Vector2f(event.mouseMove.x, event.mouseMove.y);
                     //TODO: ACA es donde me lanza un error
-                    //clicked->setPosition(newPos);
+                    clicked->setPosition(newPos);
+                    oldPos = sf::Vector2f(event.mouseMove.x, event.mouseMove.y);
                     break;
             }
         

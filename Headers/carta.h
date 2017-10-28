@@ -25,6 +25,7 @@ public:
     sf::Texture texture;
     void setPos(int x, int y);
     void show();
+    int clicks;
 
 
 };

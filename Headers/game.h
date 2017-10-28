@@ -27,9 +27,9 @@ public:
     void drawLabel(sf::RectangleShape* label);
     void drawAllLabels();
     void loadAllCards();
-    void sortCards(list<Carta*> *cards);
     void drawAllCards();
     void orderCards();
+    bool evaluarMovimiento(Tabla *tbTo,Carta* carta);
     Carta* getCardClicked(sf::Vector2f vec);
     Tabla* getTableClicked(sf::Vector2f vec);
     void gameLoop();
