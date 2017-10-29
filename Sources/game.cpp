@@ -48,6 +48,13 @@ void Game::createAllLabels(list<TablaNormal*> tablas)
         (*i)->label = crearLabel(90,120,cont,250);
         cont+=150;
     }
+    cont = 50;
+    for(int i = 0; i < 4; i++)
+    {
+        labelsAs.push_back(crearLabel(90,120,cont,30));
+        cont+=150;
+    }
+    
     
 }
 void Game::orderCards()
@@ -71,12 +78,20 @@ void Game::drawAllLabels()
     {
         drawLabel((*i)->label);
     }
+    for(list<sf::RectangleShape*>::iterator it = labelsAs.begin();it!= labelsAs.end();it++)
+    {
+        drawLabel((*it));
+    }
 }
 void Game::drawAllCards()
 {
     for(list<Carta*>::iterator i = mazo->cartas->begin(); i != mazo->cartas->end(); i++)
     {
        this->window.draw((**i));
+    }
+    for(list<Carta*>::iterator im = mazo->cartasMostradas->begin(); im != mazo->cartasMostradas->end(); im++)
+    {
+       this->window.draw((**im));
     }
     for(list<TablaNormal*>::iterator it = tablas.begin(); it!= tablas.end();it++)
     {
@@ -182,6 +197,11 @@ void Game::gameLoop()
                             moving = true;
                             oldPos = sf::Vector2f(event.mouseButton.x, event.mouseButton.y);
                         }
+                        else if( mazo->isMazoClicked(mouseBounds))
+                        {
+                            this->mazo->showCartaMazo();
+                        }
+                        
                         //fin prueba
                     }
                     break;

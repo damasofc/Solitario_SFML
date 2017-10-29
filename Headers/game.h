@@ -44,6 +44,7 @@ public:
     list<Carta*>* cartas;
     list <TablaNormal*> tablas;
     Mazo *mazo;
+    list<sf::RectangleShape*> labelsAs;
     const float HEIGHT = 750;
     const float WIDTH = 1100;
     sf::RenderWindow window;

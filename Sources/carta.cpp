@@ -24,7 +24,12 @@ void Carta::show()
     this->texture.loadFromFile(srcImg.c_str());
     this->setTexture(this->texture);
 }
-
+void Carta::hide()
+{
+    isVisible = false;
+    this->texture.loadFromFile(imgDefault.c_str());
+    this->setTexture(this->texture);
+}
 bool Carta::isClick(sf::Vector2f vec)
 {
     sf::FloatRect card = this->getGlobalBounds();
