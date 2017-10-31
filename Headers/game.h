@@ -7,6 +7,10 @@
 #include <list>
 #include <map>
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
 
 #include <stdlib.h>
 #include <time.h>
@@ -29,6 +33,13 @@ public:
     void loadAllCards();
     void drawAllCards();
     void orderCards();
+    //PRUEBA 
+    void moverCartaMazo(Tabla *tbFrom,Tabla *tbTo,Carta* carta);
+    //PRUEBA FIN
+    void moverVarias(Tabla* tabla,Tabla* tbTo, Carta* carta);
+    void sort(list<Carta*> *cartas,int size);
+    Carta* obtener(int pos,list<Carta*> *ca);
+    void swap(Carta* c1,Carta* c2);
     bool evaluarMovimiento(Tabla *tbTo,Carta* carta);
     Carta* getCardClicked(sf::Vector2f vec);
     Tabla* getTableClicked(sf::Vector2f vec);

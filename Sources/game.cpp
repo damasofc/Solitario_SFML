@@ -6,8 +6,7 @@ Game::Game()
     window.setFramerateLimit(60);
     cartas = new list<Carta*>();
     loadAllCards();
-    cartas->sort();
-    cartas->reverse();
+    sort(this->cartas,this->cartas->size());
     this->mazo = new Mazo();
     mazo->cartas = cartas;
     for (int i = 0; i < 7; i++) {
@@ -18,15 +17,63 @@ Game::Game()
     mazo->setPositionMazo(950,30);
     
 }
+void Game::swap(Carta* c1, Carta* c2)
+{
+    Carta temp = *c1;
+    *c1 = *c2;
+    *c2 = temp;
+}
+void Game::sort(list<Carta*> *cartas, int size)
+{
+    list<Carta*> *miList = new list<Carta*>();
+    srand ( time(NULL) );
+
+    for (int i = size-1; i > 0; i--)
+    {
+        // Pick a random index from 0 to i
+        int j = rand() % (i+1);
+ 
+        // Swap arr[i] with the element at random index
+        swap(this->obtener(i,cartas), this->obtener(j,cartas));
+        this->obtener(i,cartas)->hide();
+        this->obtener(j,cartas)->hide();
+    }
+    
+}
+Carta* Game::obtener(int pos,list<Carta*> *ca)
+{
+    if(pos >= 0 && pos < ca->size())
+    {
+        list<Carta*>::iterator it = ca->begin();
+        int cont = 0;
+        while(it!= ca->end())
+        {
+            if(cont == pos)
+                return *it;
+            cont++;
+            it++;
+        }
+    }
+    return NULL;
+}
 bool Game::evaluarMovimiento(Tabla *tbTo,Carta* carta)
 {
-    Carta* last = tbTo->cartas->back();
-    int tipLast = last->tip;
-    if(last->col == carta->col)
+    if(tbTo->cartas->size() >=1)
+    {
+        Carta* last = tbTo->cartas->back();
+        int tipLast = last->tip;
+        if(last->col == carta->col)
+            return false;
+        if(!(carta->tip == tipLast+1))
+            return false;
+        return true;
+    }
+    else
+    {
+        if(carta->tip == KING)
+            return true;
         return false;
-    if(!(carta->tip == tipLast+1))
-        return false;
-    return true;
+    }
 }
 sf::RectangleShape* Game::crearLabel(int width,int height,int posX,int posY)
 {
@@ -62,9 +109,11 @@ void Game::orderCards()
     for (list<TablaNormal*>::iterator i = tablas.begin(); i != tablas.end(); i++) {
         (*i)->ordenarCartasLabel();
     }
+    this->mazo->ordenarCartasMostradas();
 }
 void Game::repartirCartas()
 {
+
     for (list<TablaNormal*>::iterator i = tablas.begin(); i != tablas.end(); i++) {
         for (int var = 0; var < (*i)->cantMaxCartas; var++) {
             colocarCarta((*i));
@@ -124,10 +173,12 @@ void Game::colocarCarta(TablaNormal *tab)
 }
 void Game::addCarta(Tabla *tbAdd,Carta *cr)
 {
+    
     tbAdd->cartas->push_back(cr);
 }
 void Game::moverCarta(Tabla *tbFrom,Tabla *tbTo,Carta* carta)
 {
+    
     if(carta->isVisible)
     {
 
@@ -135,26 +186,58 @@ void Game::moverCarta(Tabla *tbFrom,Tabla *tbTo,Carta* carta)
         sacarCarta(tbFrom,carta);
     }
 }
+void Game::moverCartaMazo(Tabla *tbFrom,Tabla *tbTo,Carta* carta)
+{
+    if(carta->isVisible)
+    {
+
+        addCarta(tbTo,carta);
+        this->mazo->cartasMostradas->remove(carta);
+    }
+}
 void Game::sacarCarta(Tabla *tb,Carta *cr)
 {
-    tb->cartas->remove(cr);
+
+        
+        tb->cartas->remove(cr);
 }
 Carta* Game::getCardClicked(sf::Vector2f vec)
 {
     list<TablaNormal*>::iterator tbs = this->tablas.begin();
     while(tbs!=this->tablas.end())
     {
-        list<Carta*>::iterator cts = (*tbs)->cartas->begin();
-        while(cts!= (*tbs)->cartas->end())
+        if((*tbs)->cartas->size() == 1 )
         {
-            if((*cts)->isClick(vec) && (*cts)->isVisible)
+            if((*tbs)->cartas->front()->isClick(vec))
+                return (*tbs)->cartas->front();
+        }
+        list<Carta*>::iterator cts = (*tbs)->cartas->end();
+        cts--;
+        while(cts!= (*tbs)->cartas->begin())
+        {
+            if((*cts)->isClick(vec) && (*cts)->isVisible && (*cts) == (*tbs)->cartas->back())
             {
                 return *cts;
-            }    
-            cts++;
+            }
+            else if((*cts)->isClick(vec) && (*cts)->isVisible)
+                return *cts;    
+            cts--;
         }
         
         tbs++;
+    }
+    if(mazo->cartasMostradas->size() >0)
+    {
+
+        list<Carta*>::iterator cts = mazo->cartasMostradas->begin();
+        while(cts!= (mazo->cartasMostradas->end()))
+        {
+            if((*cts)->isClick(vec) && (*cts)->isVisible)
+            {
+                return mazo->cartasMostradas->back();
+            }    
+            cts++;
+        }
     }
     return NULL;
 }
@@ -169,7 +252,24 @@ Tabla* Game::getTableClicked(sf::Vector2f vec)
         
         tbs++;
     }
+    sf::FloatRect baraja = sf::FloatRect(800,30,90,100);
+    if(baraja.contains(vec))
+        return this->mazo;
     return NULL;
+}
+void Game::moverVarias(Tabla* tabla,Tabla* tbTo, Carta* carta)
+{
+    list<Carta*>::iterator it = tabla->cartas->end();
+    bool cont = false;
+    while(it!= tabla->cartas->end())
+    {
+        if(*it == carta || cont)
+        {
+            moverCarta(tabla,tbTo,carta);
+            cont = true;
+        }
+        it++;
+    }
 }
 void Game::gameLoop()
 {
@@ -199,7 +299,15 @@ void Game::gameLoop()
                         }
                         else if( mazo->isMazoClicked(mouseBounds))
                         {
-                            this->mazo->showCartaMazo();
+                            if(this->mazo->cartas->size() <= 0 && this->mazo->cartasMostradas->size() >= 1)
+                            {
+                                this->mazo->putShowCardsInMazo();
+                            }
+                            else
+                            {
+
+                                this->mazo->showCartaMazo();
+                            }
                         }
                         
                         //fin prueba
@@ -213,11 +321,21 @@ void Game::gameLoop()
                         {
                             if(tb != tbClicked && evaluarMovimiento(tb,clicked))
                             {
+                                    if(tbClicked == mazo)
+                                    {
 
-                                moverCarta((TablaNormal*)tbClicked,(TablaNormal*)tb,clicked);
+                                        moverCartaMazo(tbClicked,tb,clicked);
+                                    }
+                                    else
+                                    {
+
+                                        moverCarta(tbClicked,tb,clicked);
+                                    }
                             }
                         }
                         orderCards();
+                        clicked = NULL;
+                        tbClicked = NULL;
                     }
                     break;
                 case sf::Event::MouseMoved:

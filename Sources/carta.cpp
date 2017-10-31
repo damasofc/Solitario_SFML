@@ -20,7 +20,7 @@ void Carta::setPos(int x, int y)
 
 void Carta::show()
 {
-    isVisible = true;
+    this->isVisible = true;
     this->texture.loadFromFile(srcImg.c_str());
     this->setTexture(this->texture);
 }

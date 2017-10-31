@@ -12,6 +12,7 @@ public:
     Tabla();
     list<Carta*>* cartas;
     int cantCartas;
+    
 };
 
 #endif // TABLA_H

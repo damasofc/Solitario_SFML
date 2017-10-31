@@ -4,6 +4,7 @@ Mazo::Mazo()
 {
     cartas = new list<Carta*>();
     cartasMostradas = new list<Carta*>();
+    this->cantCartas = cartas->size();
 }
 
 void Mazo::setPositionMazo(int x, int y)
@@ -20,6 +21,9 @@ void Mazo::setPositionMazo(int x, int y)
         (*i)->setPosition(x-150,y);
         it++;
     }
+    this->posX = x;
+    this->posY = y;
+    this->cantCartas = cartas->size();
 }
 bool Mazo::isMazoClicked(sf::Vector2f vec)
 {
@@ -27,6 +31,27 @@ bool Mazo::isMazoClicked(sf::Vector2f vec)
     if(card.contains(vec))
         return true;
     return false;
+}
+void Mazo::ordenarCartasMostradas()
+{
+    int posX = 800;
+    int posY = 30;
+    for(list<Carta*>::iterator i = this->cartasMostradas->begin();i!=this->cartasMostradas->end();i++)
+    {
+        (*i)->setPos(posX,posY);
+    }
+}
+void Mazo::putShowCardsInMazo()
+{
+        list<Carta*>::iterator it = this->cartasMostradas->end();
+        it--;
+        for(it;it!= this->cartasMostradas->begin();it--)
+        {
+            (*it)->hide();
+            (*it)->setPosition(this->posX,this->posY);
+            this->cartas->push_back(*it);
+            this->cartasMostradas->remove(*it);
+        }
 }
 void Mazo::showCartaMazo()
 {
@@ -44,4 +69,5 @@ void Mazo::showCartaMazo()
         }
 
     }
+    this->cantCartas = cartas->size();
 }
