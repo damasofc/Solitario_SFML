@@ -21,11 +21,11 @@ void TablaNormal::ordenarCartasLabel()
             carta->show();
         }
         carta->setPos(posX,posY+cont);
-        cont+=23;
+        cont+=30;
     }
     sf::Vector2f siz = this->label->getSize();
     if(this->cartas->size() > 0)
-        this->label->setSize(sf::Vector2f(siz.x,120+((this->cartas->size()-1)*23)));
+        this->label->setSize(sf::Vector2f(siz.x,120+((this->cartas->size()-1)*30)));
 }
 bool TablaNormal::isTablaLlena()
 {

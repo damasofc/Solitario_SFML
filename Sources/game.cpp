@@ -251,9 +251,10 @@ void Game::moverVarias(Tabla* tabla,Tabla* tbTo, Carta* carta)
     for(int i = 0; i < tabla->cartas->size(); i++)
     {
         Carta* temp = tabla->cartas->get(i);
-        if(temp == carta || cont)
+        if(temp == carta || (temp->isVisible && cont))
         {
-            moverCarta(tabla,tbTo,carta);
+            moverCarta(tabla,tbTo,temp);
+            i--;
             cont = true;
         }
     }
@@ -315,8 +316,15 @@ void Game::gameLoop()
                                     }
                                     else
                                     {
+                                        if(clicked != tbClicked->cartas->back())
+                                        {
+                                            moverVarias(tbClicked,tb,clicked);
+                                        }
+                                        else
+                                        {
 
-                                        moverCarta(tbClicked,tb,clicked);
+                                            moverCarta(tbClicked,tb,clicked);
+                                        }
                                     }
                             }
                         }

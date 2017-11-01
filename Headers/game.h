@@ -55,7 +55,7 @@ public:
     lista<TablaNormal*> tablas;
     Mazo *mazo;
     lista<sf::RectangleShape*> labelsAs;
-    const float HEIGHT = 750;
+    const float HEIGHT = 850;
     const float WIDTH = 1100;
     sf::RenderWindow window;
 };
