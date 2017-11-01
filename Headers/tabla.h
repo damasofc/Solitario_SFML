@@ -2,6 +2,7 @@
 #define TABLA_H
 
 #include <list>
+#include "lista.h"
 
 #include "carta.h"
 
@@ -10,7 +11,7 @@ class Tabla
 {
 public:
     Tabla();
-    list<Carta*>* cartas;
+    lista<Carta*>* cartas;
     int cantCartas;
     
 };

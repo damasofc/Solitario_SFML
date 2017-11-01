@@ -4,7 +4,7 @@ Game::Game()
 {
     window.create(sf::VideoMode(WIDTH,HEIGHT),"Solitario | Damasofc",sf::Style::Titlebar | sf::Style::Close);
     window.setFramerateLimit(60);
-    cartas = new list<Carta*>();
+    cartas = new lista<Carta*>();
     loadAllCards();
     sort(this->cartas,this->cartas->size());
     this->mazo = new Mazo();
@@ -23,9 +23,9 @@ void Game::swap(Carta* c1, Carta* c2)
     *c1 = *c2;
     *c2 = temp;
 }
-void Game::sort(list<Carta*> *cartas, int size)
+void Game::sort(lista<Carta*> *cartas, int size)
 {
-    list<Carta*> *miList = new list<Carta*>();
+    lista<Carta*> *miList = new lista<Carta*>();
     srand ( time(NULL) );
 
     for (int i = size-1; i > 0; i--)
@@ -34,27 +34,11 @@ void Game::sort(list<Carta*> *cartas, int size)
         int j = rand() % (i+1);
  
         // Swap arr[i] with the element at random index
-        swap(this->obtener(i,cartas), this->obtener(j,cartas));
-        this->obtener(i,cartas)->hide();
-        this->obtener(j,cartas)->hide();
+        swap(cartas->get(i), cartas->get(j));
+        cartas->get(i)->hide();
+        cartas->get(j)->hide();
     }
     
-}
-Carta* Game::obtener(int pos,list<Carta*> *ca)
-{
-    if(pos >= 0 && pos < ca->size())
-    {
-        list<Carta*>::iterator it = ca->begin();
-        int cont = 0;
-        while(it!= ca->end())
-        {
-            if(cont == pos)
-                return *it;
-            cont++;
-            it++;
-        }
-    }
-    return NULL;
 }
 bool Game::evaluarMovimiento(Tabla *tbTo,Carta* carta)
 {
@@ -87,12 +71,13 @@ void Game::drawLabel(sf::RectangleShape* label)
 {
     this->window.draw(*label);
 }
-void Game::createAllLabels(list<TablaNormal*> tablas)
+void Game::createAllLabels(lista<TablaNormal*> tablas)
 {
     int cont = 50;
-    for(list<TablaNormal*>::iterator i = tablas.begin(); i != tablas.end(); i++)
+    for(int i = 0; i < tablas.size(); i++)
     {
-        (*i)->label = crearLabel(90,120,cont,250);
+        TablaNormal* tabla = tablas.get(i);
+        tabla->label = crearLabel(90,120,cont,250);
         cont+=150;
     }
     cont = 50;
@@ -102,53 +87,62 @@ void Game::createAllLabels(list<TablaNormal*> tablas)
         cont+=150;
     }
     
-    
 }
 void Game::orderCards()
 {
-    for (list<TablaNormal*>::iterator i = tablas.begin(); i != tablas.end(); i++) {
-        (*i)->ordenarCartasLabel();
+    for(int i = 0; i < tablas.size(); i++)
+    {
+        tablas.get(i)->ordenarCartasLabel();
     }
     this->mazo->ordenarCartasMostradas();
 }
 void Game::repartirCartas()
 {
-
-    for (list<TablaNormal*>::iterator i = tablas.begin(); i != tablas.end(); i++) {
-        for (int var = 0; var < (*i)->cantMaxCartas; var++) {
-            colocarCarta((*i));
+    for(int i = 0; i < tablas.size(); i++)
+    {
+        TablaNormal* tabla = tablas.get(i);
+        for (int var = 0; var < tabla->cantMaxCartas; var++) {
+            colocarCarta(tabla);
         }
-        (*i)->cartas->back()->show();
+        tabla->cartas->back()->show();
     }
+    
 }
 void Game::drawAllLabels()
 {
-    for(list<TablaNormal*>::iterator i = tablas.begin(); i != tablas.end(); i++)
+    for(int i = 0; i < tablas.size(); i++)
     {
-        drawLabel((*i)->label);
+        TablaNormal* tabla = tablas.get(i);
+        drawLabel(tabla->label);
     }
-    for(list<sf::RectangleShape*>::iterator it = labelsAs.begin();it!= labelsAs.end();it++)
+    for(int i = 0; i < labelsAs.size(); i++)
     {
-        drawLabel((*it));
+        sf::RectangleShape* shape = labelsAs.get(i);
+        drawLabel(shape);
     }
 }
 void Game::drawAllCards()
 {
-    for(list<Carta*>::iterator i = mazo->cartas->begin(); i != mazo->cartas->end(); i++)
+    for(int i = 0; i < mazo->cartas->size(); i++)
     {
-       this->window.draw((**i));
+        Carta* carta = mazo->cartas->get(i);
+        this->window.draw(*carta);
     }
-    for(list<Carta*>::iterator im = mazo->cartasMostradas->begin(); im != mazo->cartasMostradas->end(); im++)
+    for(int i = 0; i < mazo->cartasMostradas->size(); i++)
     {
-       this->window.draw((**im));
+        Carta* carta = mazo->cartasMostradas->get(i);
+        this->window.draw(*carta);
     }
-    for(list<TablaNormal*>::iterator it = tablas.begin(); it!= tablas.end();it++)
+    for(int i = 0; i < tablas.size(); i++)
     {
-        for(list<Carta*>::iterator m = (*it)->cartas->begin(); m != (*it)->cartas->end(); m++)
+        TablaNormal* tabla = tablas.get(i);
+        for(int m = 0; m < tabla->cartas->size(); m++)
         {
-           this->window.draw((**m));
+            Carta* carta = tabla->cartas->get(m);
+            this->window.draw(*carta);
         }
     }
+
 }
 void Game::colocarCarta(TablaNormal *tab)
 {
@@ -166,7 +160,6 @@ void Game::colocarCarta(TablaNormal *tab)
             tab->cartas->push_back(it);
             this->mazo->cartas->pop_front();
         }
-        this->mazo->cartas->sort();
         (*it).setPosition(tab->label->getPosition().x,tab->label->getPosition().y);
 
     }
@@ -203,54 +196,49 @@ void Game::sacarCarta(Tabla *tb,Carta *cr)
 }
 Carta* Game::getCardClicked(sf::Vector2f vec)
 {
-    list<TablaNormal*>::iterator tbs = this->tablas.begin();
-    while(tbs!=this->tablas.end())
+    for(int i = 0; i < this->tablas.size(); i++)
     {
-        if((*tbs)->cartas->size() == 1 )
+        TablaNormal* tabla = this->tablas.get(i);
+        if(tabla->cartas->size() == 1)
         {
-            if((*tbs)->cartas->front()->isClick(vec))
-                return (*tbs)->cartas->front();
+            if(tabla->cartas->front()->isClick(vec))
+                return tabla->cartas->front();
         }
-        list<Carta*>::iterator cts = (*tbs)->cartas->end();
-        cts--;
-        while(cts!= (*tbs)->cartas->begin())
+        for(int m = tabla->cartas->size() -1; m >= 0; m--)
         {
-            if((*cts)->isClick(vec) && (*cts)->isVisible && (*cts) == (*tbs)->cartas->back())
+            Carta* carta = tabla->cartas->get(m);
+            if(carta->isClick(vec) && carta->isVisible && carta == tabla->cartas->back())
             {
-                return *cts;
+                return carta;
             }
-            else if((*cts)->isClick(vec) && (*cts)->isVisible)
-                return *cts;    
-            cts--;
+            else if(carta->isClick(vec) && carta->isVisible)
+                return carta; 
         }
         
-        tbs++;
     }
     if(mazo->cartasMostradas->size() >0)
     {
 
-        list<Carta*>::iterator cts = mazo->cartasMostradas->begin();
-        while(cts!= (mazo->cartasMostradas->end()))
+        for(int i = 0; i < mazo->cartasMostradas->size(); i++)
         {
-            if((*cts)->isClick(vec) && (*cts)->isVisible)
+            Carta* carta = mazo->cartasMostradas->get(i);
+            if(carta->isClick(vec) && carta->isVisible)
             {
                 return mazo->cartasMostradas->back();
-            }    
-            cts++;
+            }
         }
+        
     }
     return NULL;
 }
 Tabla* Game::getTableClicked(sf::Vector2f vec)
 {
-    list<TablaNormal*>::iterator tbs = this->tablas.begin();
-    while(tbs!=this->tablas.end())
+    for(int i = 0; i < this->tablas.size(); i++)
     {
-        sf::FloatRect table = (*tbs)->label->getGlobalBounds();
+        TablaNormal* tabla = this->tablas.get(i);
+        sf::FloatRect table = tabla->label->getGlobalBounds();
         if(table.contains(vec))
-            return (*tbs);
-        
-        tbs++;
+            return tabla;
     }
     sf::FloatRect baraja = sf::FloatRect(800,30,90,100);
     if(baraja.contains(vec))
@@ -259,16 +247,15 @@ Tabla* Game::getTableClicked(sf::Vector2f vec)
 }
 void Game::moverVarias(Tabla* tabla,Tabla* tbTo, Carta* carta)
 {
-    list<Carta*>::iterator it = tabla->cartas->end();
     bool cont = false;
-    while(it!= tabla->cartas->end())
+    for(int i = 0; i < tabla->cartas->size(); i++)
     {
-        if(*it == carta || cont)
+        Carta* temp = tabla->cartas->get(i);
+        if(temp == carta || cont)
         {
             moverCarta(tabla,tbTo,carta);
             cont = true;
         }
-        it++;
     }
 }
 void Game::gameLoop()

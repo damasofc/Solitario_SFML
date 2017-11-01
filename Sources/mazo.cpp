@@ -2,24 +2,20 @@
 
 Mazo::Mazo()
 {
-    cartas = new list<Carta*>();
-    cartasMostradas = new list<Carta*>();
+    cartas = new lista<Carta*>();
+    cartasMostradas = new lista<Carta*>();
     this->cantCartas = cartas->size();
 }
 
 void Mazo::setPositionMazo(int x, int y)
-{ 
-    list<Carta*>::iterator it = this->cartas->begin();
-    while(it!= this->cartas->end())
+{
+    for(int i = 0; i < this->cartas->size(); i++)
     {
-        (*it)->setPosition(x,y);
-        it++;
+        this->cartas->get(i)->setPosition(x,y);
     }
-    list<Carta*>::iterator i = this->cartasMostradas->begin();
-    while(i!= this->cartasMostradas->end())
+    for(int i = 0; i < this->cartasMostradas->size(); i++)
     {
-        (*i)->setPosition(x-150,y);
-        it++;
+        this->cartasMostradas->get(i)->setPosition(x-150,y);
     }
     this->posX = x;
     this->posY = y;
@@ -36,38 +32,36 @@ void Mazo::ordenarCartasMostradas()
 {
     int posX = 800;
     int posY = 30;
-    for(list<Carta*>::iterator i = this->cartasMostradas->begin();i!=this->cartasMostradas->end();i++)
+    for(int i = 0; i < this->cartasMostradas->size(); i++)
     {
-        (*i)->setPos(posX,posY);
+        this->cartasMostradas->get(i)->setPos(posX,posY);
     }
 }
 void Mazo::putShowCardsInMazo()
 {
-        list<Carta*>::iterator it = this->cartasMostradas->end();
-        it--;
-        for(it;it!= this->cartasMostradas->begin();it--)
+        for(int i = this->cartasMostradas->size()-1; i >=0; i--)
         {
-            (*it)->hide();
-            (*it)->setPosition(this->posX,this->posY);
-            this->cartas->push_back(*it);
-            this->cartasMostradas->remove(*it);
+            Carta* carta = this->cartasMostradas->get(i);
+            carta->hide();
+            carta->setPosition(this->posX,this->posY);
+            this->cartas->push_back(carta);
+            this->cartasMostradas->remove(carta);
         }
 }
 void Mazo::showCartaMazo()
 {
     if(this->cartas->size() >= 1)
     {
-        list<Carta*>::iterator i = this->cartas->begin();
-        this->cartasMostradas->push_back((*i));
-        (*i)->show();
-        this->cartas->remove((*i));
-        list<Carta*>::iterator it = this->cartasMostradas->begin();
-        while(it!= this->cartasMostradas->end())
+        Carta* carta = this->cartas->front();
+        this->cartasMostradas->push_back(carta);
+        carta->show();
+        this->cartas->remove(carta);
+        for(int i = 0; i < this->cartasMostradas->size(); i++)
         {
-            (*it)->setPosition(800,30);
-            it++;
+            Carta* car = this->cartasMostradas->get(i);
+            car->setPosition(800,30);
         }
-
+        
     }
     this->cantCartas = cartas->size();
 }

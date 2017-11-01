@@ -4,7 +4,7 @@
 #include "tablanormal.h"
 #include <SFML/Graphics.hpp>
 #include "mazo.h"
-#include <list>
+#include "lista.h"
 #include <map>
 
 #include <stdio.h>
@@ -27,7 +27,7 @@ public:
     void moverCarta(Tabla *tbFrom,Tabla *tbTo,Carta* carta);
     void sacarCarta(Tabla *tb,Carta *cr);
     sf::RectangleShape* crearLabel(int width, int height,int posX, int posY);
-    void createAllLabels(list<TablaNormal*> tablas);
+    void createAllLabels(lista<TablaNormal*> tablas);
     void drawLabel(sf::RectangleShape* label);
     void drawAllLabels();
     void loadAllCards();
@@ -37,8 +37,7 @@ public:
     void moverCartaMazo(Tabla *tbFrom,Tabla *tbTo,Carta* carta);
     //PRUEBA FIN
     void moverVarias(Tabla* tabla,Tabla* tbTo, Carta* carta);
-    void sort(list<Carta*> *cartas,int size);
-    Carta* obtener(int pos,list<Carta*> *ca);
+    void sort(lista<Carta*> *cartas,int size);
     void swap(Carta* c1,Carta* c2);
     bool evaluarMovimiento(Tabla *tbTo,Carta* carta);
     Carta* getCardClicked(sf::Vector2f vec);
@@ -52,10 +51,10 @@ public:
     bool moving;
     sf::Vector2f oldPos;
     
-    list<Carta*>* cartas;
-    list <TablaNormal*> tablas;
+    lista<Carta*>* cartas;
+    lista<TablaNormal*> tablas;
     Mazo *mazo;
-    list<sf::RectangleShape*> labelsAs;
+    lista<sf::RectangleShape*> labelsAs;
     const float HEIGHT = 750;
     const float WIDTH = 1100;
     sf::RenderWindow window;

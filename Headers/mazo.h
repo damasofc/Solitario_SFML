@@ -1,13 +1,14 @@
 #ifndef MAZO_H
 #define MAZO_H
 #include "tabla.h"
+#include "lista.h"
 
 
 class Mazo : public Tabla
 {
 public:
     Mazo();
-    list <Carta*>* cartasMostradas;
+    lista <Carta*>* cartasMostradas;
     int posX;
     int posY;
     void setPositionMazo(int x, int y);
