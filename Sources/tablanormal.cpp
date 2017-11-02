@@ -25,9 +25,20 @@ void TablaNormal::ordenarCartasLabel()
     }
     sf::Vector2f siz = this->label->getSize();
     if(this->cartas->size() > 0)
+    {
         this->label->setSize(sf::Vector2f(siz.x,120+((this->cartas->size()-1)*30)));
+    }
+    else
+    {
+        this->label->setSize(sf::Vector2f(siz.x,120));
+    }
+        
 }
 bool TablaNormal::isTablaLlena()
 {
     return (this->cantCartas >= this->cantMaxCartas)?true:false;
+}
+void TablaNormal::hi()
+{
+    
 }

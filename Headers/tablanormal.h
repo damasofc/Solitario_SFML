@@ -15,6 +15,7 @@ public:
 
     void ordenarCartasLabel();
     bool isTablaLlena();
+    void hi();
 };
 
 #endif // TABLANORMAL_H

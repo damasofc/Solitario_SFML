@@ -16,6 +16,7 @@ public:
     bool isMazoClicked(sf::Vector2f vec);
     void ordenarCartasMostradas();
     void putShowCardsInMazo();
+    void hi();
 };
 
 #endif // MAZO_H

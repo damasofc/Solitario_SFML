@@ -5,7 +5,9 @@
 #include <SFML/Graphics.hpp>
 #include "mazo.h"
 #include "lista.h"
+#include "as.h"
 #include <map>
+#include "tabla.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,7 +16,6 @@
 
 #include <stdlib.h>
 #include <time.h>
-
 
 class Game
 {
@@ -51,6 +52,8 @@ public:
     bool moving;
     sf::Vector2f oldPos;
     
+
+    lista<As*> ases;
     lista<Carta*>* cartas;
     lista<TablaNormal*> tablas;
     Mazo *mazo;

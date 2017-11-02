@@ -65,3 +65,7 @@ void Mazo::showCartaMazo()
     }
     this->cantCartas = cartas->size();
 }
+void Mazo::hi()
+{
+    
+}

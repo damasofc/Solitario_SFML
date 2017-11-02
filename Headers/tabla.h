@@ -13,6 +13,7 @@ public:
     Tabla();
     lista<Carta*>* cartas;
     int cantCartas;
+    virtual void hi();
     
 };
 

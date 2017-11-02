@@ -1,10 +1,12 @@
 #include "../Headers/game.h"
 
+using namespace std;
 Game::Game()
 {
     window.create(sf::VideoMode(WIDTH,HEIGHT),"Solitario | Damasofc",sf::Style::Titlebar | sf::Style::Close);
     window.setFramerateLimit(60);
     cartas = new lista<Carta*>();
+    ases = lista<As*>();
     loadAllCards();
     sort(this->cartas,this->cartas->size());
     this->mazo = new Mazo();
@@ -42,22 +44,23 @@ void Game::sort(lista<Carta*> *cartas, int size)
 }
 bool Game::evaluarMovimiento(Tabla *tbTo,Carta* carta)
 {
-    if(tbTo->cartas->size() >=1)
-    {
-        Carta* last = tbTo->cartas->back();
-        int tipLast = last->tip;
-        if(last->col == carta->col)
-            return false;
-        if(!(carta->tip == tipLast+1))
-            return false;
-        return true;
-    }
-    else
-    {
-        if(carta->tip == KING)
+        if(tbTo->cartas->size() >=1)
+        {
+            Carta* last = tbTo->cartas->back();
+            int tipLast = last->tip;
+            if(last->col == carta->col)
+                return false;
+            if(!(carta->tip == tipLast+1))
+                return false;
             return true;
-        return false;
-    }
+        }
+        else
+        {
+            if(carta->tip == KING)
+                return true;
+            return false;
+        }
+    
 }
 sf::RectangleShape* Game::crearLabel(int width,int height,int posX,int posY)
 {
@@ -80,10 +83,13 @@ void Game::createAllLabels(lista<TablaNormal*> tablas)
         tabla->label = crearLabel(90,120,cont,250);
         cont+=150;
     }
+    //Aca creo todo los labels donde se colocaran ASES
     cont = 50;
     for(int i = 0; i < 4; i++)
     {
-        labelsAs.push_back(crearLabel(90,120,cont,30));
+        As* ase = new As();
+        ase->label = crearLabel(90,120,cont,30);
+        ases.push_back(ase);
         cont+=150;
     }
     
@@ -94,6 +100,12 @@ void Game::orderCards()
     {
         tablas.get(i)->ordenarCartasLabel();
     }
+    
+    for(int i = 0; i < ases.size(); i++) 
+    {
+        ases.get(i)->ordenarCartasLabel();
+    }
+    
     this->mazo->ordenarCartasMostradas();
 }
 void Game::repartirCartas()
@@ -115,9 +127,9 @@ void Game::drawAllLabels()
         TablaNormal* tabla = tablas.get(i);
         drawLabel(tabla->label);
     }
-    for(int i = 0; i < labelsAs.size(); i++)
+    for(int i = 0; i < ases.size(); i++)
     {
-        sf::RectangleShape* shape = labelsAs.get(i);
+        sf::RectangleShape* shape = ases.get(i)->label;
         drawLabel(shape);
     }
 }
@@ -139,6 +151,15 @@ void Game::drawAllCards()
         for(int m = 0; m < tabla->cartas->size(); m++)
         {
             Carta* carta = tabla->cartas->get(m);
+            this->window.draw(*carta);
+        }
+    }
+    for(int i = 0; i < ases.size(); i++)
+    {
+        As* ase = ases.get(i);
+        for(int m = 0; m < ase->cartas->size(); m++)
+        {
+            Carta* carta = ase->cartas->get(m);
             this->window.draw(*carta);
         }
     }
@@ -229,6 +250,27 @@ Carta* Game::getCardClicked(sf::Vector2f vec)
         }
         
     }
+    for(int i = 0; i < ases.size(); i++)
+    {
+        As* ase = ases.get(i);
+        if(ase->cartas->size() == 1)
+        {
+            if(ase->cartas->front()->isClick(vec))
+                return ase->cartas->front();
+        }
+        for(int m = ase->cartas->size()-1; m >= 0; m--)
+        {
+            Carta* carta = ase->cartas->get(m);
+            if(carta->isClick(vec) && carta->isVisible && carta == ase->cartas->back())
+            {
+                return carta;
+            }
+            else if(carta->isClick(vec) && carta->isVisible)
+                return carta;
+        }
+        
+    }
+    
     return NULL;
 }
 Tabla* Game::getTableClicked(sf::Vector2f vec)
@@ -243,6 +285,14 @@ Tabla* Game::getTableClicked(sf::Vector2f vec)
     sf::FloatRect baraja = sf::FloatRect(800,30,90,100);
     if(baraja.contains(vec))
         return this->mazo;
+    for(int i = 0; i < ases.size(); i++)
+    {
+        As* tablaAs = this->ases.get(i);
+        sf::FloatRect tableAs = tablaAs->label->getGlobalBounds();
+        if(tableAs.contains(vec))
+            return tablaAs; 
+    }
+    
     return NULL;
 }
 void Game::moverVarias(Tabla* tabla,Tabla* tbTo, Carta* carta)
@@ -280,12 +330,7 @@ void Game::gameLoop()
                         clicked = getCardClicked(mouseBounds);
                         tbClicked = getTableClicked(mouseBounds);
                         //prueba
-                        if(clicked!= NULL && tbClicked!= NULL)
-                        {
-                            moving = true;
-                            oldPos = sf::Vector2f(event.mouseButton.x, event.mouseButton.y);
-                        }
-                        else if( mazo->isMazoClicked(mouseBounds))
+                        if( mazo->isMazoClicked(mouseBounds))
                         {
                             if(this->mazo->cartas->size() <= 0 && this->mazo->cartasMostradas->size() >= 1)
                             {
@@ -293,9 +338,13 @@ void Game::gameLoop()
                             }
                             else
                             {
-
                                 this->mazo->showCartaMazo();
                             }
+                        }
+                        else if(clicked!= NULL && tbClicked!= NULL)
+                        {
+                            moving = true;
+                            oldPos = sf::Vector2f(event.mouseButton.x, event.mouseButton.y);
                         }
                         
                         //fin prueba
@@ -307,11 +356,47 @@ void Game::gameLoop()
                         moving = false;
                         if(tb != NULL)
                         {
-                            if(tb != tbClicked && evaluarMovimiento(tb,clicked))
+                            if(As* t = dynamic_cast<As*>(tb))
+                            {
+                                //ACA DENTRO DEBO MODIFICAR EL IF
+                                Carta* last;
+                                if(tb->cartas->size() >= 1)
+                                {
+                                    last = tb->cartas->back();
+                                    int tipLast = last->tip;
+                                    if(last->col == clicked->col && last->fig == clicked->fig && clicked->tip == tipLast-1)
+                                    {   
+                                        if(tbClicked == mazo)
+                                        {
+                                            moverCartaMazo(tbClicked,tb,clicked);
+                                        } 
+                                        else
+                                        {
+
+                                            moverCarta(tbClicked,tb,clicked);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    if(clicked->tip == AS)
+                                    {
+                                        if(tbClicked == mazo)
+                                        {
+                                            moverCartaMazo(tbClicked,tb,clicked);
+                                        } 
+                                        else
+                                        {
+
+                                            moverCarta(tbClicked,tb,clicked);
+                                        }
+                                    }
+                                }
+                            }
+                            else if(tb != tbClicked && evaluarMovimiento(tb,clicked))
                             {
                                     if(tbClicked == mazo)
                                     {
-
                                         moverCartaMazo(tbClicked,tb,clicked);
                                     }
                                     else

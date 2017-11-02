@@ -6,4 +6,7 @@ Tabla::Tabla()
     cantCartas = 0;
     cartas = new lista<Carta*>();
 }
-
+void Tabla::hi()
+{
+    
+}
