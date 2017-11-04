@@ -43,6 +43,7 @@ public:
     bool evaluarMovimiento(Tabla *tbTo,Carta* carta);
     Carta* getCardClicked(sf::Vector2f vec);
     Tabla* getTableClicked(sf::Vector2f vec);
+    bool gano(lista<As*> ases);
     void gameLoop();
     
     

@@ -23,7 +23,7 @@ void Mazo::setPositionMazo(int x, int y)
 }
 bool Mazo::isMazoClicked(sf::Vector2f vec)
 {
-    sf::FloatRect card = sf::FloatRect(950,30,90,100);
+    sf::FloatRect card = sf::FloatRect(950,30,90,120);
     if(card.contains(vec))
         return true;
     return false;

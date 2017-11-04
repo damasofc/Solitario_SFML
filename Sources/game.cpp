@@ -44,6 +44,10 @@ void Game::sort(lista<Carta*> *cartas, int size)
 }
 bool Game::evaluarMovimiento(Tabla *tbTo,Carta* carta)
 {
+    if(carta == NULL)
+        return false;
+    else
+    {    
         if(tbTo->cartas->size() >=1)
         {
             Carta* last = tbTo->cartas->back();
@@ -60,7 +64,7 @@ bool Game::evaluarMovimiento(Tabla *tbTo,Carta* carta)
                 return true;
             return false;
         }
-    
+    }
 }
 sf::RectangleShape* Game::crearLabel(int width,int height,int posX,int posY)
 {
@@ -282,7 +286,7 @@ Tabla* Game::getTableClicked(sf::Vector2f vec)
         if(table.contains(vec))
             return tabla;
     }
-    sf::FloatRect baraja = sf::FloatRect(800,30,90,100);
+    sf::FloatRect baraja = sf::FloatRect(800,30,90,120);
     if(baraja.contains(vec))
         return this->mazo;
     for(int i = 0; i < ases.size(); i++)
@@ -308,6 +312,19 @@ void Game::moverVarias(Tabla* tabla,Tabla* tbTo, Carta* carta)
             cont = true;
         }
     }
+}
+bool Game::gano(lista<As*> ases)
+{
+    int cont = 0;   
+    for(int i = 0; i < ases.size(); i++) 
+    {
+        if(ases.get(i)->cartas->size() >= 13)
+            cont++;
+    }
+    if(cont == 4)
+        return true;
+    return false;
+    
 }
 void Game::gameLoop()
 {
@@ -431,8 +448,22 @@ void Game::gameLoop()
         }
         
         window.clear(sf::Color::Green);
-        drawAllLabels();
-        drawAllCards();
+        if(gano(ases))
+        {
+            drawAllCards();
+            sf::Font font;
+            font.loadFromFile("../fonts/Roboto-Italic.ttf");
+            sf::Text text = sf::Text("GANASTES, FELICIDADES!!",font,40);
+            text.setColor(sf::Color::White);
+            text.setPosition(400,900);
+            window.draw(text);
+        }
+        else
+        {
+
+            drawAllLabels();
+            drawAllCards();
+        }
         window.display();
     }
 }
