@@ -52,6 +52,8 @@ public:
     //VARIABLES
     bool moving;
     sf::Vector2f oldPos;
+    sf::Text text;
+    sf::Font font;
     
 
     lista<As*> ases;

@@ -17,6 +17,11 @@ Game::Game()
     createAllLabels(this->tablas);
     repartirCartas();
     mazo->setPositionMazo(950,30);
+    ///MENSAJE DE GANAR
+    this->font.loadFromFile("../fonts/Roboto-Italic.ttf");
+    text = sf::Text("GANASTES, FELICIDADES!!",font,60);
+    this->text.setColor(sf::Color::White);
+    this->text.setPosition(250,300);
     
 }
 void Game::swap(Carta* c1, Carta* c2)
@@ -371,13 +376,13 @@ void Game::gameLoop()
                     if (event.mouseButton.button == 0) {
                         Tabla* tb = getTableClicked(window.mapPixelToCoords(sf::Mouse::getPosition(window)));
                         moving = false;
-                        if(tb != NULL)
+                        if(tb != NULL && clicked != NULL)
                         {
                             if(As* t = dynamic_cast<As*>(tb))
                             {
                                 //ACA DENTRO DEBO MODIFICAR EL IF
                                 Carta* last;
-                                if(tb->cartas->size() >= 1)
+                                if(tb->cartas->size() >= 1 )
                                 {
                                     last = tb->cartas->back();
                                     int tipLast = last->tip;
@@ -389,8 +394,8 @@ void Game::gameLoop()
                                         } 
                                         else
                                         {
-
-                                            moverCarta(tbClicked,tb,clicked);
+                                            if(tbClicked->cartas->back() == clicked)
+                                                moverCarta(tbClicked,tb,clicked);
                                         }
                                     }
                                 }
@@ -404,8 +409,8 @@ void Game::gameLoop()
                                         } 
                                         else
                                         {
-
-                                            moverCarta(tbClicked,tb,clicked);
+                                            if(tbClicked->cartas->back() == clicked)
+                                                moverCarta(tbClicked,tb,clicked);
                                         }
                                     }
                                 }
@@ -451,16 +456,13 @@ void Game::gameLoop()
         if(gano(ases))
         {
             drawAllCards();
-            sf::Font font;
-            font.loadFromFile("../fonts/Roboto-Italic.ttf");
-            sf::Text text = sf::Text("GANASTES, FELICIDADES!!",font,40);
-            text.setColor(sf::Color::White);
-            text.setPosition(400,900);
-            window.draw(text);
+            this->text.setColor(sf::Color::White);
+            this->text.setPosition(250,300);
+            window.draw(this->text);
         }
         else
         {
-
+            
             drawAllLabels();
             drawAllCards();
         }
