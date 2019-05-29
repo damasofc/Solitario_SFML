@@ -7,7 +7,7 @@ Carta::Carta(Figura fig,Tipo ti,Color col, string srcImage)
     this->col = col;
     this->srcImg = srcImage;
     this->isVisible = false;
-    this->imgDefault = "/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/atras_carta.png";
+    this->imgDefault = "../Resources/img/atras_carta.png";
     texture.loadFromFile(imgDefault.c_str());
     this->setTexture(this->texture);
     this->setScale(0.18,0.18);

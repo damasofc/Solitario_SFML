@@ -250,4 +250,4 @@ public:
         return fin->valor;
     }
 };
-#endif  LISTA_H
+#endif

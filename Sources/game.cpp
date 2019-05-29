@@ -472,68 +472,68 @@ void Game::gameLoop()
 void Game::loadAllCards()
 {
     //Numero 2
-    cartas->push_back(new Carta(TREBOL,TWO,BLACK,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/2_of_clubs.png"));
-    cartas->push_back(new Carta(DIAMANTE,TWO,RED,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/2_of_diamonds.png"));
-    cartas->push_back(new Carta(CORAZON,TWO,RED,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/2_of_hearts.png"));
-    cartas->push_back(new Carta(ESPADA,TWO,BLACK,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/2_of_spades.png"));
+    cartas->push_back(new Carta(TREBOL,TWO,BLACK,"../Resources/img/2_of_clubs.png"));
+    cartas->push_back(new Carta(DIAMANTE,TWO,RED,"../Resources/img/2_of_diamonds.png"));
+    cartas->push_back(new Carta(CORAZON,TWO,RED,"../Resources/img/2_of_hearts.png"));
+    cartas->push_back(new Carta(ESPADA,TWO,BLACK,"../Resources/img/2_of_spades.png"));
     //Numero 3
-    cartas->push_back(new Carta(TREBOL,THREE,BLACK,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/3_of_clubs.png"));
-    cartas->push_back(new Carta(DIAMANTE,THREE,RED,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/3_of_diamonds.png"));
-    cartas->push_back(new Carta(CORAZON,THREE,RED,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/3_of_hearts.png"));
-    cartas->push_back(new Carta(ESPADA,THREE,BLACK,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/3_of_spades.png"));
+    cartas->push_back(new Carta(TREBOL,THREE,BLACK,"../Resources/img/3_of_clubs.png"));
+    cartas->push_back(new Carta(DIAMANTE,THREE,RED,"../Resources/img/3_of_diamonds.png"));
+    cartas->push_back(new Carta(CORAZON,THREE,RED,"../Resources/img/3_of_hearts.png"));
+    cartas->push_back(new Carta(ESPADA,THREE,BLACK,"../Resources/img/3_of_spades.png"));
     //Numero 4
-    cartas->push_back(new Carta(TREBOL,FOUR,BLACK,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/4_of_clubs.png"));
-    cartas->push_back(new Carta(DIAMANTE,FOUR,RED,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/4_of_diamonds.png"));
-    cartas->push_back(new Carta(CORAZON,FOUR,RED,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/4_of_hearts.png"));
-    cartas->push_back(new Carta(ESPADA,FOUR,BLACK,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/4_of_spades.png"));
+    cartas->push_back(new Carta(TREBOL,FOUR,BLACK,"../Resources/img/4_of_clubs.png"));
+    cartas->push_back(new Carta(DIAMANTE,FOUR,RED,"../Resources/img/4_of_diamonds.png"));
+    cartas->push_back(new Carta(CORAZON,FOUR,RED,"../Resources/img/4_of_hearts.png"));
+    cartas->push_back(new Carta(ESPADA,FOUR,BLACK,"../Resources/img/4_of_spades.png"));
     //Numero 5
-    cartas->push_back(new Carta(TREBOL,FIVE,BLACK,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/5_of_clubs.png"));
-    cartas->push_back(new Carta(DIAMANTE,FIVE,RED,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/5_of_diamonds.png"));
-    cartas->push_back(new Carta(CORAZON,FIVE,RED,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/5_of_hearts.png"));
-    cartas->push_back(new Carta(ESPADA,FIVE,BLACK,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/5_of_spades.png"));
+    cartas->push_back(new Carta(TREBOL,FIVE,BLACK,"../Resources/img/5_of_clubs.png"));
+    cartas->push_back(new Carta(DIAMANTE,FIVE,RED,"../Resources/img/5_of_diamonds.png"));
+    cartas->push_back(new Carta(CORAZON,FIVE,RED,"../Resources/img/5_of_hearts.png"));
+    cartas->push_back(new Carta(ESPADA,FIVE,BLACK,"../Resources/img/5_of_spades.png"));
     //Numero 6
-    cartas->push_back(new Carta(TREBOL,SIX,BLACK,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/6_of_clubs.png"));
-    cartas->push_back(new Carta(DIAMANTE,SIX,RED,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/6_of_diamonds.png"));
-    cartas->push_back(new Carta(CORAZON,SIX,RED,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/6_of_hearts.png"));
-    cartas->push_back(new Carta(ESPADA,SIX,BLACK,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/6_of_spades.png"));
+    cartas->push_back(new Carta(TREBOL,SIX,BLACK,"../Resources/img/6_of_clubs.png"));
+    cartas->push_back(new Carta(DIAMANTE,SIX,RED,"../Resources/img/6_of_diamonds.png"));
+    cartas->push_back(new Carta(CORAZON,SIX,RED,"../Resources/img/6_of_hearts.png"));
+    cartas->push_back(new Carta(ESPADA,SIX,BLACK,"../Resources/img/6_of_spades.png"));
     //NumERO7
-    cartas->push_back(new Carta(TREBOL,SEVEN,BLACK,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/7_of_clubs.png"));
-    cartas->push_back(new Carta(DIAMANTE,SEVEN,RED,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/7_of_diamonds.png"));
-    cartas->push_back(new Carta(CORAZON,SEVEN,RED,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/7_of_hearts.png"));
-    cartas->push_back(new Carta(ESPADA,SEVEN,BLACK,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/7_of_spades.png"));
+    cartas->push_back(new Carta(TREBOL,SEVEN,BLACK,"../Resources/img/7_of_clubs.png"));
+    cartas->push_back(new Carta(DIAMANTE,SEVEN,RED,"../Resources/img/7_of_diamonds.png"));
+    cartas->push_back(new Carta(CORAZON,SEVEN,RED, "../Resources/img/7_of_hearts.png"));
+    cartas->push_back(new Carta(ESPADA,SEVEN,BLACK,"../Resources/img/7_of_spades.png"));
     //NumERO8
-    cartas->push_back(new Carta(TREBOL,EIGHT,BLACK,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/8_of_clubs.png"));
-    cartas->push_back(new Carta(DIAMANTE,EIGHT,RED,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/8_of_diamonds.png"));
-    cartas->push_back(new Carta(CORAZON,EIGHT,RED,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/8_of_hearts.png"));
-    cartas->push_back(new Carta(ESPADA,EIGHT,BLACK,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/8_of_spades.png"));
+    cartas->push_back(new Carta(TREBOL,EIGHT,BLACK,"../Resources/img/8_of_clubs.png"));
+    cartas->push_back(new Carta(DIAMANTE,EIGHT,RED,"../Resources/img/8_of_diamonds.png"));
+    cartas->push_back(new Carta(CORAZON,EIGHT,RED, "../Resources/img/8_of_hearts.png"));
+    cartas->push_back(new Carta(ESPADA,EIGHT,BLACK,"../Resources/img/8_of_spades.png"));
     //NumERO9
-    cartas->push_back(new Carta(TREBOL,NINE,BLACK,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/9_of_clubs.png"));
-    cartas->push_back(new Carta(DIAMANTE,NINE,RED,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/9_of_diamonds.png"));
-    cartas->push_back(new Carta(CORAZON,NINE,RED,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/9_of_hearts.png"));
-    cartas->push_back(new Carta(ESPADA,NINE,BLACK,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/9_of_spades.png"));
+    cartas->push_back(new Carta(TREBOL,NINE,BLACK,"../Resources/img/9_of_clubs.png"));
+    cartas->push_back(new Carta(DIAMANTE,NINE,RED,"../Resources/img/9_of_diamonds.png"));
+    cartas->push_back(new Carta(CORAZON,NINE,RED, "../Resources/img/9_of_hearts.png"));
+    cartas->push_back(new Carta(ESPADA,NINE,BLACK,"../Resources/img/9_of_spades.png"));
     //Nume->
-    cartas->push_back(new Carta(TREBOL,TEN,BLACK,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/10_of_clubs.png"));
-    cartas->push_back(new Carta(DIAMANTE,TEN,RED,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/10_of_diamonds.png"));
-    cartas->push_back(new Carta(CORAZON,TEN,RED,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/10_of_hearts.png"));
-    cartas->push_back(new Carta(ESPADA,TEN,BLACK,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/10_of_spades.png"));
+    cartas->push_back(new Carta(TREBOL,TEN,BLACK,"../Resources/img/10_of_clubs.png"));
+    cartas->push_back(new Carta(DIAMANTE,TEN,RED,"../Resources/img/10_of_diamonds.png"));
+    cartas->push_back(new Carta(CORAZON,TEN,RED, "../Resources/img/10_of_hearts.png"));
+    cartas->push_back(new Carta(ESPADA,TEN,BLACK,"../Resources/img/10_of_spades.png"));
     //AS
-    cartas->push_back(new Carta(TREBOL,AS,BLACK,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/ace_of_clubs.png"));
-    cartas->push_back(new Carta(DIAMANTE,AS,RED,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/ace_of_diamonds.png"));
-    cartas->push_back(new Carta(CORAZON,AS,RED,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/ace_of_hearts.png"));
-    cartas->push_back(new Carta(ESPADA,AS,BLACK,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/ace_of_spades2.png"));
+    cartas->push_back(new Carta(TREBOL,AS,BLACK,"../Resources/img/ace_of_clubs.png"));
+    cartas->push_back(new Carta(DIAMANTE,AS,RED,"../Resources/img/ace_of_diamonds.png"));
+    cartas->push_back(new Carta(CORAZON,AS,RED, "../Resources/img/ace_of_hearts.png"));
+    cartas->push_back(new Carta(ESPADA,AS,BLACK,"../Resources/img/ace_of_spades2.png"));
     //JACK
-    cartas->push_back(new Carta(TREBOL,JACK,BLACK,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/jack_of_clubs2.png"));
-    cartas->push_back(new Carta(DIAMANTE,JACK,RED,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/jack_of_diamonds2.png"));
-    cartas->push_back(new Carta(CORAZON,JACK,RED,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/jack_of_hearts2.png"));
-    cartas->push_back(new Carta(ESPADA,JACK,BLACK,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/jack_of_spades2.png"));
+    cartas->push_back(new Carta(TREBOL,JACK,BLACK,"../Resources/img/jack_of_clubs2.png"));
+    cartas->push_back(new Carta(DIAMANTE,JACK,RED,"../Resources/img/jack_of_diamonds2.png"));
+    cartas->push_back(new Carta(CORAZON,JACK,RED, "../Resources/img/jack_of_hearts2.png"));
+    cartas->push_back(new Carta(ESPADA,JACK,BLACK,"../Resources/img/jack_of_spades2.png"));
     //KING
-    cartas->push_back(new Carta(TREBOL,KING,BLACK,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/king_of_clubs2.png"));
-    cartas->push_back(new Carta(DIAMANTE,KING,RED,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/king_of_diamonds2.png"));
-    cartas->push_back(new Carta(CORAZON,KING,RED,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/king_of_hearts2.png"));
-    cartas->push_back(new Carta(ESPADA,KING,BLACK,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/king_of_spades2.png"));
+    cartas->push_back(new Carta(TREBOL,KING,BLACK,"../Resources/img/king_of_clubs2.png"));
+    cartas->push_back(new Carta(DIAMANTE,KING,RED,"../Resources/img/king_of_diamonds2.png"));
+    cartas->push_back(new Carta(CORAZON,KING,RED, "../Resources/img/king_of_hearts2.png"));
+    cartas->push_back(new Carta(ESPADA,KING,BLACK,"../Resources/img/king_of_spades2.png"));
     //QUEEN
-    cartas->push_back(new Carta(TREBOL,QUEEN,BLACK,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/queen_of_clubs2.png"));
-    cartas->push_back(new Carta(DIAMANTE,QUEEN,RED,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/queen_of_diamonds2.png"));
-    cartas->push_back(new Carta(CORAZON,QUEEN,RED,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/queen_of_hearts2.png"));
-    cartas->push_back(new Carta(ESPADA,QUEEN,BLACK,"/home/damasofc/QTProjects/Solitario_Proyecto/Imagenes/queen_of_spades2.png"));
+    cartas->push_back(new Carta(TREBOL,QUEEN,BLACK,"../Resources/img/queen_of_clubs2.png"));
+    cartas->push_back(new Carta(DIAMANTE,QUEEN,RED,"../Resources/img/queen_of_diamonds2.png"));
+    cartas->push_back(new Carta(CORAZON,QUEEN,RED, "../Resources/img/queen_of_hearts2.png"));
+    cartas->push_back(new Carta(ESPADA,QUEEN,BLACK,"../Resources/img/queen_of_spades2.png"));
 }
